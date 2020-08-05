@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather Dashboard</title> 
+    <link
+        rel="stylesheet"
+        href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+        integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf"
+        crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="./Assets/style.css" />
+</head>
+<body>
+    <header>
+        <nav class="navbar"><div>Weather Dashboard</div></nav>
+    </header>
+    <div class="content">
+        <aside class=left-side>
+            <div class="search-section">Search for a City:</div>
+            <div class="nav-search">
+                <input id="searchText" name="searchText" type="text" class="city-search">
+                <i class="fas fa-search search-icon"></i>
+                <i class="fas fa-location-arrow location-icon"></i>
+            </div>
+            <div class="history">
+                <p>Austin</p>
+                <p>Chicago</p>
+                <p>New York</p>
+                <p>Orlando</p>
+                <p>San Francisco</p>
+                <p>Seattle</p>
+                <p>Denver</p>
+                <p>Atlanta</p>
+            </div>
+        </aside>
+        <section class="right-side">
+            <section class="city-weather">
+                <div class="title title-city"><div id="name">... Loading City</div><img id="title-weather" alt="weather icon" /></div>
+                <div class="weather-info" id="temp">Temperature:</div>
+                <div class="weather-info" id="humidity">Humidity:</div>
+                <div class="weather-info" id="wind">Wind Speed:</div>
+                <div class="weather-info" id="UV">UV Index:</div>
+            </section>
+            <section class="city-5-day">
+                <div class="title">5-Day Forecast:</div>
+                <div class="weather-cards">
+                    <div class="card" id="day_plus_1">
+                        <div class="card-title">Today + 1</div>
+                        <img class="card-icon" />
+                        <div class="card-info card-temp">Temp</div>
+                        <div class="card-info card-humidity">Humidity</div>
+                    </div>
+                    <div class="card" id="day_plus_2">
+                        <div class="card-title">Today + 1</div>
+                        <img class="card-icon" />
+                        <div class="card-info card-temp">Temp</div>
+                        <div class="card-info card-humidity">Humidity</div>
+                    </div>
+                    <div class="card" id="day_plus_3">
+                        <div class="card-title">Today + 1</div>
+                        <img class="card-icon" />
+                        <div class="card-info card-temp">Temp</div>
+                        <div class="card-info card-humidity">Humidity</div>
+                    </div>
+                    <div class="card" id="day_plus_4">
+                        <div class="card-title">Today + 1</div>
+                        <img class="card-icon" />
+                        <div class="card-info card-temp">Temp</div>
+                        <div class="card-info card-humidity">Humidity</div>
+                    </div>
+                    <div class="card" id="day_plus_5">
+                        <div class="card-title">Today + 1</div>
+                        <img class="card-icon" />
+                        <div class="card-info card-temp">Temp</div>
+                        <div class="card-info card-humidity">Humidity</div>
+                    </div>
+                </div>
+            </section>
+        </section>
+    </div>
+    <script src="./Assets/script.js"></script>
+</body>
+</html>
