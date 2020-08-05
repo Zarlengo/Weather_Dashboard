@@ -25,13 +25,22 @@
     display: flex;
     flex-direction: row;
     align-items: center;
-    justify-content: center;
-    font-size: 36px;
+    justify-content: space-between;
+    font-size: 24px;
+}
+
+.unit-btn {
+    height: 100%;
+    padding-left: 5px;
+    padding-right: 5px;
+    font-size: 16px;
+    width: 60px;
 }
 
 body {
     background-color: var(--main-background-color);
     color: var(--main-font-color);
+    min-width: 320px;
 }
 
 .content {
@@ -100,12 +109,17 @@ body {
     margin-top: 20px;
     display: none;
 }
+.popular-location {
+    margin-top: 15px;
+    display: none;
+}
 
-.history p {
+.history p, .popular-location p {
     padding: 10px 20px;
     border: 1px solid #000;
     margin-top: -1px;
     font-size: 18px;
+    cursor: pointer;
 }
 
 .right-side {
@@ -198,6 +212,18 @@ body {
 /* Formatting changes for larger screens / computers */
 @media (min-width: 550px) {        
 
+/* Styles for the navbar */
+    .navbar {
+        font-size: 36px;
+    }
+
+    .unit-btn {
+        font-size: 20px;
+        width: 80px;
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
     .content {
         display: flex;
         flex-direction: row;
@@ -214,7 +240,7 @@ body {
         flex-grow: 4;
     }
 
-    .history {
+    .history, .popular-location {
         display: block;
     }       
 }
