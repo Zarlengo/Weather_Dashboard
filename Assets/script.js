@@ -29,9 +29,9 @@ for (let future = 1; future <= 5; future++) {
 let title_string =
 `Acceptable inputs:
   City Name
-  City Name, Region Code
-  City Name, Region Code, Country Code
-  Latitude, Longitude
+  City Name, Country
+  City Name, State, Country
+  Latitude, Longitude (Don't use cardinal directions, + / - only)
   Zip Code`;
 document.querySelector(".search-section").setAttribute("title", title_string);
 document.querySelector(".nav-search").setAttribute("title", title_string);
@@ -112,6 +112,52 @@ document.querySelector(".unit-btn").addEventListener("click", () => {
     currentWeatherAPI(city_id, "id", loadCity);
 }, false);
 
+// Adds a listener to the search button to allow loading of weather based on GPS coordinates
+document.querySelector(".search-icon").addEventListener("click", userInput, false);
+document.querySelector("#searchText").addEventListener("keyup", (event) => {
+    if (event.keyCode === 13) {
+        userInput();
+    }
+}, false);
+
+function userInput() {
+    let user_text = document.querySelector("#searchText").value;
+    document.querySelector("#searchText").value = "";
+
+    // Checks if the input matches a US zipcode format
+    let zipcode_exp = new RegExp("^[0-9]{5}(?:-[0-9]{4})?$");
+    if (zipcode_exp.test(user_text)) {
+        currentWeatherAPI(user_text, "zipcode", loadCity);
+        return;
+    }
+
+    // Checks if the input matches a lat long format
+    let user_array = [];
+    if (user_text.split(",").length > 1) {
+        user_array = user_text.split(",");
+    } else if (user_text.split(" ").length > 1) {
+        user_array = user_text.split(" ");
+    }
+
+    if (user_array.length == 2) {
+        let exp_check = true;
+        for (let index = 0; index < user_array.length; index++) {
+            user_array[index] = user_array[index].trim();
+            if (isNaN(user_array[index])) {
+                exp_check = false;
+            } else {
+                user_array[index] = parseFloat(user_array[index]);
+            }
+        }
+        if (exp_check) {
+            currentWeatherAPI(user_array, "lat_long", loadCity);
+            return;
+        }
+    }
+
+    // All other inputs assumed city string (doesn't work with city, state only)
+    currentWeatherAPI(user_text, "name_string", loadCity);
+}
 
 // Adds a listener to the GPS button to allow loading of weather based on GPS coordinates
 document.querySelector(".location-icon").addEventListener("click", () => {
@@ -179,10 +225,28 @@ function currentWeatherAPI(input_value, input_type, ReferenceFunction) {
 
     fetch(weather_URL)
         .then(response => {
-            return response.json();
+            console.log(response);
+            if (!response.ok) {
+                // Shows an overlay to the user that there an no favorites, automatically disappears after 1.5 seconds
+                document.querySelector("#modal-message").innerHTML =
+                    `Location not found<br><br>
+                    <ol>Acceptable inputs:</ol>
+                    <li>City Name</li>
+                    <li>City Name, Country</li>
+                    <li>City Name, State, Country</li>
+                    <li>Latitude, Longitude (Don't use cardinal directions, + / - only)</li>
+                    <li>Zip Code</li>`;
+                document.querySelector(".modal-container").style.display = "flex";
+                setTimeout(() => {document.querySelector(".modal-container").style.display = "none";}, 4000);
+                return false;
+            } else {
+                return response.json();
+            }
         })
         .then(request => {
-            ReferenceFunction(request);
+            if (request != false) {
+                ReferenceFunction(request);
+            }
         })
 
 }
@@ -247,8 +311,6 @@ function getCityName(latitude, longitude, city_id) {
         })
         .then(request => {
             console.log(request);
-
-
             let city_object = request.results[0].components;
 
             // Ignores any missing components in the name (i.e. Singapore doesn't have a region code)
@@ -270,6 +332,12 @@ function getCityName(latitude, longitude, city_id) {
 
 // Function to add the city to local storage and update the sidebar
 function addToStorage(city_name, city_id) {
+
+    // Incase the location doesn't have a city
+    if (city_id == 0) {
+        return;
+    }
+
     let current_storage = JSON.parse(localStorage.getItem("weather_history"));
 
     // If there is no history
@@ -355,7 +423,6 @@ function futureWeatherAPI(latitude, longitude, ReferenceFunction) {
             return response.json();
         })
         .then(request => {
-            console.log(request);
             ReferenceFunction(request);
         })
 }
