@@ -163,6 +163,11 @@ body {
     font-size: 22px;
 }
 
+.card-icon {
+    width: 100%;
+    text-align: center;
+}
+
 .card-humidity {
     padding-top: 30px;
 }

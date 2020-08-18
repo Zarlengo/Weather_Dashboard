@@ -102,6 +102,7 @@ document.querySelector(".unit-btn").addEventListener("click", () => {
     } else {
         units = "SI";
     }
+    document.querySelector(".unit-btn").textContent = units;
 
     // Updates local storage
     var json_obj = JSON.stringify(units);
@@ -225,7 +226,6 @@ function currentWeatherAPI(input_value, input_type, ReferenceFunction) {
 
     fetch(weather_URL)
         .then(response => {
-            console.log(response);
             if (!response.ok) {
                 // Shows an overlay to the user that there an no favorites, automatically disappears after 1.5 seconds
                 document.querySelector("#modal-message").innerHTML =
@@ -253,7 +253,7 @@ function currentWeatherAPI(input_value, input_type, ReferenceFunction) {
 
 // Function to load the website with the API data
 function loadCity(result) {
-
+    console.log(result);
     // Updates the city name based on the API location data, accounts for different formats entered into the search options
     getCityName(result.coord.lat, result.coord.lon, result.id);
 
@@ -310,7 +310,6 @@ function getCityName(latitude, longitude, city_id) {
             return response.json();
         })
         .then(request => {
-            console.log(request);
             let city_object = request.results[0].components;
 
             // Ignores any missing components in the name (i.e. Singapore doesn't have a region code)
